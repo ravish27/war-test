@@ -1,0 +1,11 @@
+node {
+    stage('git checkout'){
+        git credentialsId: 'f2710aa4-3380-44a2-939e-82af05510281', url: 'https://github.com/ravish27/war-test.git'
+    }
+    stage('code build test and package'){
+        bat 'mvn clean package'
+    }
+    stage('code deploy'){
+        deploy adapters: [tomcat8(credentialsId: 'cbca7130-8b0b-4fdd-a056-f08a0079996b', path: '', url: 'http://localhost:8888/')], contextPath: 'pipleline1', war: '**/*.war'
+    }
+}
